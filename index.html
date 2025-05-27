@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <title>Cultural Vinil</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Fonte estilizada Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
         body {
             background: #fff;
             min-height: 100vh;
@@ -16,80 +23,162 @@
             justify-content: flex-start;
             margin: 0;
             padding: 0;
+            font-family: 'Roboto', sans-serif;
         }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 0;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
         .logo {
-            width: 82vw;
-            max-width: 350px;
-            min-width: 120px;
-            margin-top: 5vw;
-            margin-bottom: 0;
+            width: 85vw;
+            max-width: 370px;
+            min-width: 170px;
+            margin-top: 6vh;
+            margin-bottom: 2vh;
+            transition: all 0.3s ease;
         }
+        
         #contador {
-            font-family: 'Orbitron', 'Share Tech Mono', monospace;
-            font-size: 9vw;
-            margin: 3vw 0 5vw 0;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1.8rem;
+            margin: 2vh 0 1vh 0;
             color: #111;
-            letter-spacing: 2.5px;
+            letter-spacing: 1.5px;
             text-align: center;
-            font-weight: 900;
-            line-height: 1.1;
-            text-shadow: 0 2px 6px #fff, 0 0px 0px #fff;
+            transition: all 0.3s ease;
         }
+        
         #vinil-gif {
-            width: 98vw;
-            max-width: 480px;
-            min-width: 150px;
-            margin: 2vw 0 3vw 0;
+            width: 100vw;
+            max-width: 100%;
+            margin: 1vh 0;
             cursor: pointer;
             display: block;
-            border-radius: 12px;
+            border-radius: 0;
+            transition: all 0.3s ease;
         }
+        
+        #vinil-gif:active {
+            opacity: 0.9;
+        }
+        
         #toque {
-            width: 75vw;
-            max-width: 420px;
-            min-width: 120px;
-            margin: 0 0 5vw 0;
+            width: 64vw;
+            max-width: 380px;
+            min-width: 90px;
+            margin: 1vh 0 7vh 0;
             display: block;
+            transition: all 0.3s ease;
         }
-        img { -webkit-tap-highlight-color: transparent;}
+        
+        img { 
+            -webkit-tap-highlight-color: transparent;
+        }
 
-        @media (max-width: 650px) {
-            .logo { width: 92vw; max-width: 260px; margin-top: 8vw;}
-            #vinil-gif { width: 98vw; max-width: 330px;}
-            #toque { width: 88vw; max-width: 280px;}
-            #contador { font-size: 12vw; }
+        /* Ajustes para desktop */
+        @media (min-width: 769px) {
+            #vinil-gif {
+                width: 60%;
+                max-width: 500px;
+                margin: 1vh auto;
+            }
         }
-        @media (max-width: 430px) {
-            .logo { width: 97vw; max-width: 140px; }
-            #vinil-gif { width: 99vw; max-width: 170px;}
-            #toque { width: 95vw; max-width: 160px;}
-            #contador { font-size: 13vw;}
+
+        /* Melhorias de responsividade */
+        @media (max-width: 768px) {
+            .logo { 
+                width: 80vw; 
+                max-width: 320px; 
+                margin-top: 7vh;
+            }
+            #contador { 
+                font-size: 1.6rem; 
+            }
+            #vinil-gif { 
+                width: 100vw; 
+            }
+            #toque { 
+                width: 70vw; 
+                max-width: 320px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo { 
+                width: 90vw; 
+                max-width: 260px; 
+                margin-top: 5vh;
+            }
+            #contador { 
+                font-size: 1.4rem; 
+            }
+            #vinil-gif { 
+                width: 100vw;
+                margin: 1vh 0;
+            }
+            #toque { 
+                width: 80vw; 
+                max-width: 250px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .logo { 
+                width: 92vw; 
+                max-width: 220px; 
+                margin-top: 4vh;
+            }
+            #contador { 
+                font-size: 1.2rem; 
+            }
+            #vinil-gif { 
+                width: 100vw;
+                margin: 1vh 0;
+            }
+            #toque { 
+                width: 85vw; 
+                max-width: 200px;
+            }
         }
     </style>
 </head>
 <body>
-    <img src="Logo Cultural.png" alt="Logo Cultural" class="logo">
-    <div id="contador"></div>
-    <img id="vinil-gif" src="vinil_Web.gif" alt="Vinil Girando" draggable="false">
-    <img id="toque" src="toque.png" alt="Toque para ouvir">
-    <audio id="vinil-audio" src="vinil.mp3"></audio>
+    <div class="container">
+        <img src="Logo Cultural.png" alt="Logo Cultural" class="logo">
+        <div id="contador"></div>
+        <img id="vinil-gif" src="vinil_Web.gif" alt="Vinil Girando" draggable="false">
+        <img id="toque" src="toque.png" alt="Toque para ouvir">
+        <audio id="vinil-audio" src="vinil.mp3" preload="auto"></audio>
+    </div>
+    
     <script>
         // CONTAGEM REGRESSIVA
         function atualizaContador() {
             const alvo = new Date('2025-05-29T12:00:00-03:00').getTime();
             const agora = new Date().getTime();
             let dist = alvo - agora;
+            
             if (dist < 0) {
                 document.getElementById('contador').textContent = "Evento iniciado!";
                 return;
             }
+            
             const dias = Math.floor(dist / (1000 * 60 * 60 * 24));
             const horas = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const min = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
             const seg = Math.floor((dist % (1000 * 60)) / 1000);
+            
             document.getElementById('contador').textContent =
                 `${dias}d ${horas}h ${min}m ${seg}s`;
         }
+        
         setInterval(atualizaContador, 1000);
         atualizaContador();
 
@@ -97,11 +186,13 @@
         let estado = 0;
         const vinil = document.getElementById('vinil-gif');
         const audio = document.getElementById('vinil-audio');
+        
         vinil.addEventListener('click', function() {
             if (estado === 0) {
                 audio.currentTime = 0;
                 audio.loop = true;
-                audio.play();
+                audio.play()
+                    .catch(e => console.log('Erro ao reproduzir áudio:', e));
                 estado = 1;
             } else if (estado === 1) {
                 window.location.href = 'misterio.html';
@@ -112,15 +203,18 @@
         // Garante autoplay após interação
         document.body.addEventListener('click', function(){
             if(audio.paused && estado === 1){
-                audio.play();
+                audio.play()
+                    .catch(e => console.log('Erro ao reproduzir áudio:', e));
             }
         }, {once:true});
 
         // Se o usuário pausar manualmente o áudio, volta a tocar
         audio.addEventListener('pause', () => {
-            if(estado === 1) audio.play();
+            if(estado === 1) {
+                audio.play()
+                    .catch(e => console.log('Erro ao reproduzir áudio:', e));
+            }
         });
     </script>
 </body>
 </html>
-
