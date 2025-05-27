@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Cultural Vinil</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
             background: #fff;
@@ -12,80 +13,114 @@
             align-items: center;
             justify-content: flex-start;
             margin: 0;
+            padding: 0;
         }
         .logo {
-            width: 310px;
-            max-width: 90vw;
-            margin-top: 32px;
+            width: 85vw;
+            max-width: 370px;
+            min-width: 170px;
+            margin-top: 6vw;
+            margin-bottom: 2vw;
         }
-        #rel {
+        #contador {
             font-family: monospace;
-            font-size: 2.2em;
-            margin: 6px 0 4px 0;
+            font-size: 6vw;
+            min-font-size: 1.6em;
+            margin: 3vw 0 3vw 0;
             color: #111;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
+            text-align: center;
         }
-        #vinil {
-            margin: 16px 0 18px 0;
-            width: 355px;
-            max-width: 96vw;
+        #vinil-gif {
+            width: 85vw;
+            max-width: 410px;
+            min-width: 170px;
+            margin: 6vw 0 4vw 0;
             cursor: pointer;
-            transition: transform 0.7s cubic-bezier(.4,2.2,.7,1.2);
+            display: block;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            border-radius: 14px;
+            transition: box-shadow 0.2s;
         }
-        .girar {
-            animation: girando 2.2s linear infinite;
-        }
-        @keyframes girando {
-            100% { transform: rotate(360deg);}
+        #vinil-gif:active {
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
         }
         #toque {
-            width: 320px;
-            max-width: 88vw;
-            margin: 0 0 26px 0;
+            width: 64vw;
+            max-width: 380px;
+            min-width: 90px;
+            margin: 0 0 7vw 0;
             display: block;
         }
         img { -webkit-tap-highlight-color: transparent;}
+
+        @media (max-width: 600px) {
+            .logo { width: 85vw; max-width: 320px; margin-top: 7vw;}
+            #vinil-gif { width: 92vw; max-width: 350px;}
+            #toque { width: 74vw; max-width: 320px;}
+            #contador { font-size: 7vw; }
+        }
+        @media (max-width: 430px) {
+            .logo { width: 93vw; max-width: 210px; }
+            #vinil-gif { width: 97vw; max-width: 220px;}
+            #toque { width: 80vw; max-width: 200px;}
+            #contador { font-size: 8vw;}
+        }
     </style>
 </head>
 <body>
     <img src="Logo Cultural.png" alt="Logo Cultural" class="logo">
-    <div id="rel"></div>
-    <img id="vinil" src="vinil_02.png" alt="Vinil" draggable="false">
+    <div id="contador"></div>
+    <img id="vinil-gif" src="vinil_Web.gif" alt="Vinil Girando" draggable="false">
     <img id="toque" src="toque.png" alt="Toque para ouvir">
     <audio id="vinil-audio" src="vinil.mp3"></audio>
     <script>
-        // Relógio
-        function atualizaRelogio() {
-            let now = new Date();
-            let h = String(now.getHours()).padStart(2, '0');
-            let m = String(now.getMinutes()).padStart(2, '0');
-            let s = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('rel').textContent = `${h}:${m}:${s}`;
+        // CONTAGEM REGRESSIVA
+        function atualizaContador() {
+            const alvo = new Date('2025-05-29T12:00:00-03:00').getTime();
+            const agora = new Date().getTime();
+            let dist = alvo - agora;
+            if (dist < 0) {
+                document.getElementById('contador').textContent = "Evento iniciado!";
+                return;
+            }
+            const dias = Math.floor(dist / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const min = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
+            const seg = Math.floor((dist % (1000 * 60)) / 1000);
+            document.getElementById('contador').textContent =
+                `${dias}d ${horas}h ${min}m ${seg}s`;
         }
-        setInterval(atualizaRelogio, 900);
-        atualizaRelogio();
+        setInterval(atualizaContador, 1000);
+        atualizaContador();
 
-        // Controle de click do disco
+        // CLICK NO GIF
         let estado = 0;
-        const vinil = document.getElementById('vinil');
+        const vinil = document.getElementById('vinil-gif');
         const audio = document.getElementById('vinil-audio');
         vinil.addEventListener('click', function() {
-            if(estado === 0) {
-                vinil.classList.add('girar');
+            if (estado === 0) {
                 audio.currentTime = 0;
                 audio.loop = true;
                 audio.play();
                 estado = 1;
-            } else if(estado === 1) {
+            } else if (estado === 1) {
                 window.location.href = 'misterio.html';
                 estado = 2;
             }
         });
+
+        // Garante autoplay após interação
         document.body.addEventListener('click', function(){
             if(audio.paused && estado === 1){
                 audio.play();
             }
         }, {once:true});
+
+        // Se o usuário pausar manualmente o áudio, volta a tocar
+        audio.addEventListener('pause', () => {
+            if(estado === 1) audio.play();
+        });
     </script>
 </body>
 </html>
