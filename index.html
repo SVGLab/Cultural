@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cultural Vinil</title>
+    <style>
+        body {
+            background: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            margin: 0;
+        }
+        .logo {
+            width: 310px;
+            max-width: 90vw;
+            margin-top: 32px;
+        }
+        #rel {
+            font-family: monospace;
+            font-size: 2.2em;
+            margin: 6px 0 4px 0;
+            color: #111;
+            letter-spacing: 2px;
+        }
+        #vinil {
+            margin: 16px 0 18px 0;
+            width: 355px;
+            max-width: 96vw;
+            cursor: pointer;
+            transition: transform 0.7s cubic-bezier(.4,2.2,.7,1.2);
+        }
+        .girar {
+            animation: girando 2.2s linear infinite;
+        }
+        @keyframes girando {
+            100% { transform: rotate(360deg);}
+        }
+        #toque {
+            width: 320px;
+            max-width: 88vw;
+            margin: 0 0 26px 0;
+            display: block;
+        }
+        img { -webkit-tap-highlight-color: transparent;}
+    </style>
+</head>
+<body>
+    <img src="Logo Cultural.png" alt="Logo Cultural" class="logo">
+    <div id="rel"></div>
+    <img id="vinil" src="vinil_02.png" alt="Vinil" draggable="false">
+    <img id="toque" src="toque.png" alt="Toque para ouvir">
+    <audio id="vinil-audio" src="vinil.mp3"></audio>
+    <script>
+        // Relógio
+        function atualizaRelogio() {
+            let now = new Date();
+            let h = String(now.getHours()).padStart(2, '0');
+            let m = String(now.getMinutes()).padStart(2, '0');
+            let s = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('rel').textContent = `${h}:${m}:${s}`;
+        }
+        setInterval(atualizaRelogio, 900);
+        atualizaRelogio();
+
+        // Controle de click do disco
+        let estado = 0;
+        const vinil = document.getElementById('vinil');
+        const audio = document.getElementById('vinil-audio');
+        vinil.addEventListener('click', function() {
+            if(estado === 0) {
+                vinil.classList.add('girar');
+                audio.currentTime = 0;
+                audio.loop = true;
+                audio.play();
+                estado = 1;
+            } else if(estado === 1) {
+                window.location.href = 'misterio.html';
+                estado = 2;
+            }
+        });
+        document.body.addEventListener('click', function(){
+            if(audio.paused && estado === 1){
+                audio.play();
+            }
+        }, {once:true});
+    </script>
+</body>
+</html>
